@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { getSessionCookie } from 'better-auth/cookies'
 
 const CMS_HOSTNAME = 'cms.rdpdc.in'
 
@@ -27,11 +28,32 @@ export function proxy(request: NextRequest) {
     return NextResponse.rewrite(new URL(`/cms${pathname}`, request.url))
   }
 
+  // Auth route protection — lightweight cookie check, no DB call
+  const sessionCookie = getSessionCookie(request)
+
+  if (pathname.startsWith('/dashboard')) {
+    if (!sessionCookie) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/auth'
+      url.searchParams.set('next', pathname)
+      return NextResponse.redirect(url, 307)
+    }
+    return NextResponse.next()
+  }
+
+  if (pathname.startsWith('/auth')) {
+    if (sessionCookie) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/dashboard'
+      url.search = ''
+      return NextResponse.redirect(url, 307)
+    }
+    return NextResponse.next()
+  }
+
   return NextResponse.next()
 }
 
 export const config = {
-  matcher: [
-    '/((?!_next/static|_next/image|favicon.ico).*)',
-  ],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 }
