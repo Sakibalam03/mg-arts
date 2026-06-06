@@ -2,11 +2,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Initialize the Turborepo monorepo, scaffold apps/web (Next.js 16) and apps/cms (PayloadCMS 3.x) as separate deployable apps, configure the full UI system (Tailwind v4, shadcn, dark mode), and define all 12 Payload collections + 4 globals connected to NeonDB.
+**Goal:** Configure the full UI system (Tailwind v4, shadcn, dark mode), and define all 12 Payload collections + 4 globals connected to NeonDB in a single Next.js + PayloadCMS app.
 
-**Architecture:** Two separate Next.js apps in a Turborepo monorepo — `apps/cms` is a standalone PayloadCMS 3.x app (admin + REST API at `cms.mgarts.co.in`), `apps/web` is the public-facing Next.js 16 app that calls `apps/cms` via Payload's REST API. Three shared packages: `packages/ui` (components + tokens), `packages/types` (Payload-generated types), `packages/email` (React Email templates).
+**Architecture:** Single Next.js 16 app with PayloadCMS 3.x embedded — admin panel at `/cms`, REST API at `/api`, public frontend at `/`. All code lives in `src/`.
 
-**Tech Stack:** pnpm workspaces, Turborepo 2.x, Next.js 16, PayloadCMS 3.x, `@payloadcms/db-postgres` (Drizzle), NeonDB, `@payloadcms/storage-s3`, Tailwind CSS v4, shadcn/ui (new-york style), next-themes, Vitest + React Testing Library, DM Sans + Geist Mono + Instrument Serif (Google Fonts).
+**Tech Stack:** Next.js 16, PayloadCMS 3.x, `@payloadcms/db-postgres` (Drizzle), NeonDB, `@payloadcms/storage-s3`, Tailwind CSS v4, shadcn/ui (new-york style), next-themes, Vitest + React Testing Library, DM Sans + Geist Mono + Instrument Serif (Google Fonts).
 
 ---
 
