@@ -18,6 +18,9 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  routes: {
+    admin: '/cms',
+  },
   collections: [Users, Media],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
