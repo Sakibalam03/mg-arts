@@ -226,3 +226,14 @@
   );
   background-size: 800px 100%;
 }
+
+/* ─── Rate Bar Animation ─────────────────────────────────────────────────── */
+
+@keyframes bar-fill {
+  from { width: 0; }
+  to   { width: var(--bar-width, 100%); }
+}
+
+.rate-bar {
+  animation: bar-fill 600ms ease-out forwards;
+}
