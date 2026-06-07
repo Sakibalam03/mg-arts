@@ -15,6 +15,7 @@ import { cn } from 'utils/cn';
 
 import Burger from '../burger';
 import MenuBanner from '../menu-banner';
+import MobileMenuAuth from './mobile-menu-auth';
 
 const ANIMATION_DURATION = 0.2;
 
@@ -155,24 +156,7 @@ const MobileMenu = ({ isDocPage = false, docPageType = null }: MobileMenuProps) 
                 { 'pb-20 max-sm:pb-[68px]': isDocPage }
               )}
             >
-              <Button
-                className="h-9 border border-gray-new-40 px-[18px]"
-                to={LINKS.login}
-                theme="transparent"
-                size="xxs"
-                tagName="MobileMenu"
-              >
-                Log in
-              </Button>
-              <Button
-                className="h-9 px-[18px]"
-                to={LINKS.signup}
-                theme="white-filled-multi"
-                size="xxs"
-                tagName="MobileMenu"
-              >
-                Sign up
-              </Button>
+              <MobileMenuAuth isDocPage={isDocPage} />
             </div>
           </div>
         </nav>

@@ -1,12 +1,13 @@
 import { Suspense } from 'react';
 
-import Button from 'components/shared/button';
 import Link from 'components/shared/link';
 import LINKS from 'constants/links';
 import DiscordIcon from 'icons/discord.inline';
 import GitHubIcon from 'icons/github.inline';
 import { cn } from 'utils/cn';
 import { getGitHubStars } from 'utils/get-github-data';
+
+import SidebarAuth from './sidebar-auth';
 
 const formatStars = (starsCount: number) => {
   const fixedThousands = (starsCount / 1000).toFixed(1);
@@ -88,26 +89,7 @@ const Sidebar = ({ isClient, isDocs, className }: SidebarProps) => (
         );
       })}
     </div>
-    <div className={cn('flex', isDocs ? 'gap-x-2' : 'gap-x-3.5')}>
-      <Button
-        className="h-9 px-[18px]"
-        to={LINKS.login}
-        theme="outlined"
-        size="xxs"
-        tagName="Header"
-      >
-        Log in
-      </Button>
-      <Button
-        className="h-9 px-[18px]"
-        to={LINKS.signup}
-        theme="white-filled-multi"
-        size="xxs"
-        tagName="Header"
-      >
-        Sign up
-      </Button>
-    </div>
+    <SidebarAuth isDocs={isDocs} />
   </div>
 );
 
