@@ -23,12 +23,15 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@payload-config": [
-        "./src/payload.config.ts"
-      ]
+      "@/*": ["./src/*"],
+      "@payload-config": ["./src/payload.config.ts"],
+      "components/*": ["./src/components/*"],
+      "constants/*": ["./src/constants/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "utils/*": ["./src/utils/*"],
+      "icons/*": ["./src/icons/*"],
+      "images/*": ["./src/images/*"],
+      "contexts/*": ["./src/contexts/*"]
     },
     "target": "ES2022"
   },
