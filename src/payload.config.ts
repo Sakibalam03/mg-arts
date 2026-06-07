@@ -11,6 +11,22 @@ import { s3Storage } from '@payloadcms/storage-s3'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Projects } from './collections/Projects'
+import { Documents } from './collections/Documents'
+import { Inquiries } from './collections/Inquiries'
+import { Vendors } from './collections/Vendors'
+import { VendorFieldSchema } from './collections/VendorFieldSchema'
+import { RateItems } from './collections/RateItems'
+import { Notices } from './collections/Notices'
+import { PortfolioProjects } from './collections/PortfolioProjects'
+import { Brands } from './collections/Brands'
+import { ArchitectResources } from './collections/ArchitectResources'
+import { Services } from './collections/Services'
+
+import { LandingPage } from './globals/LandingPage'
+import { AboutPage } from './globals/AboutPage'
+import { PmcPage } from './globals/PmcPage'
+import { SiteSettings } from './globals/SiteSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -28,7 +44,22 @@ export default buildConfig({
     admin: '/cms',
   },
   serverURL: process.env.BETTER_AUTH_URL ?? 'http://localhost:3000',
-  collections: [Users, Media],
+  collections: [
+    Users,
+    Media,
+    Projects,
+    Documents,
+    Inquiries,
+    Vendors,
+    VendorFieldSchema,
+    RateItems,
+    Notices,
+    PortfolioProjects,
+    Brands,
+    ArchitectResources,
+    Services,
+  ],
+  globals: [LandingPage, AboutPage, PmcPage, SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

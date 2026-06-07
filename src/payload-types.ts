@@ -73,6 +73,17 @@ export interface Config {
     verifications: Verification;
     'admin-invitations': AdminInvitation;
     media: Media;
+    projects: Project;
+    documents: Document;
+    inquiries: Inquiry;
+    vendors: Vendor;
+    'vendor-field-schema': VendorFieldSchema;
+    'rate-items': RateItem;
+    notices: Notice;
+    'portfolio-projects': PortfolioProject;
+    brands: Brand;
+    'architect-resources': ArchitectResource;
+    services: Service;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -91,6 +102,17 @@ export interface Config {
     verifications: VerificationsSelect<false> | VerificationsSelect<true>;
     'admin-invitations': AdminInvitationsSelect<false> | AdminInvitationsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    documents: DocumentsSelect<false> | DocumentsSelect<true>;
+    inquiries: InquiriesSelect<false> | InquiriesSelect<true>;
+    vendors: VendorsSelect<false> | VendorsSelect<true>;
+    'vendor-field-schema': VendorFieldSchemaSelect<false> | VendorFieldSchemaSelect<true>;
+    'rate-items': RateItemsSelect<false> | RateItemsSelect<true>;
+    notices: NoticesSelect<false> | NoticesSelect<true>;
+    'portfolio-projects': PortfolioProjectsSelect<false> | PortfolioProjectsSelect<true>;
+    brands: BrandsSelect<false> | BrandsSelect<true>;
+    'architect-resources': ArchitectResourcesSelect<false> | ArchitectResourcesSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -100,8 +122,18 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'landing-page': LandingPage;
+    'about-page': AboutPage;
+    'pmc-page': PmcPage;
+    'site-settings': SiteSetting;
+  };
+  globalsSelect: {
+    'landing-page': LandingPageSelect<false> | LandingPageSelect<true>;
+    'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
+    'pmc-page': PmcPageSelect<false> | PmcPageSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -311,6 +343,264 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  title: string;
+  client: number | User;
+  architect?: (number | null) | User;
+  status: 'inquiry' | 'quoted' | 'active' | 'completed';
+  city: string;
+  documents?: (number | Document)[] | null;
+  notes?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents".
+ */
+export interface Document {
+  id: number;
+  project: number | Project;
+  uploadedBy: number | User;
+  fileUrl: string;
+  fileType?: string | null;
+  label: 'requirement' | 'quote' | 'boq' | 'drawing' | 'other';
+  visibleTo: 'client' | 'architect' | 'admin' | 'all';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "inquiries".
+ */
+export interface Inquiry {
+  id: number;
+  name: string;
+  phone: string;
+  email: string;
+  message: string;
+  source: 'contact' | 'landing' | 'rates' | 'pmc';
+  user?: (number | null) | User;
+  status: 'new' | 'contacted' | 'converted';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendors".
+ */
+export interface Vendor {
+  id: number;
+  name: string;
+  phone: string;
+  email: string;
+  tradeType: 'plumber' | 'electrician' | 'carpenter' | 'civil' | 'other';
+  city: string;
+  licenseFile?: string | null;
+  /**
+   * Stores dynamic attributes from vendorFieldSchema entries
+   */
+  extraFields?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  status: 'pending' | 'approved' | 'rejected';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendor-field-schema".
+ */
+export interface VendorFieldSchema {
+  id: number;
+  label: string;
+  /**
+   * JSON key used in vendors.extraFields
+   */
+  fieldKey: string;
+  fieldType: 'text' | 'number' | 'select' | 'file';
+  /**
+   * Options for select type fields
+   */
+  options?:
+    | {
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  required?: boolean | null;
+  order?: number | null;
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rate-items".
+ */
+export interface RateItem {
+  id: number;
+  category: 'civil' | 'electrical' | 'plumbing' | 'carpentry';
+  serviceLabel: string;
+  unit: string;
+  mgArtsRate: number;
+  marketRate: number;
+  withMaterial?: boolean | null;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notices".
+ */
+export interface Notice {
+  id: number;
+  title: string;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  active?: boolean | null;
+  sendEmail?: boolean | null;
+  /**
+   * Stamped automatically on first send
+   */
+  sentAt?: string | null;
+  targetRole: 'all' | 'client' | 'architect';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "portfolio-projects".
+ */
+export interface PortfolioProject {
+  id: number;
+  title: string;
+  /**
+   * Auto-generated from title on create. Edit to override.
+   */
+  slug?: string | null;
+  city: string;
+  category: 'residential' | 'commercial' | 'hospitality';
+  year: number;
+  photos: (number | Media)[];
+  brands?: (number | Brand)[] | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  collaborator?: string | null;
+  metaTitle?: string | null;
+  metaDesc?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands".
+ */
+export interface Brand {
+  id: number;
+  name: string;
+  logo: number | Media;
+  authLetter?: (number | null) | Media;
+  visible?: boolean | null;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "architect-resources".
+ */
+export interface ArchitectResource {
+  id: number;
+  title: string;
+  type: 'boq-template' | 'rate-sheet' | 'guideline';
+  file: number | Media;
+  active?: boolean | null;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  title: string;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  icon?: (number | null) | Media;
+  withMaterial?: boolean | null;
+  active?: boolean | null;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -356,6 +646,50 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'documents';
+        value: number | Document;
+      } | null)
+    | ({
+        relationTo: 'inquiries';
+        value: number | Inquiry;
+      } | null)
+    | ({
+        relationTo: 'vendors';
+        value: number | Vendor;
+      } | null)
+    | ({
+        relationTo: 'vendor-field-schema';
+        value: number | VendorFieldSchema;
+      } | null)
+    | ({
+        relationTo: 'rate-items';
+        value: number | RateItem;
+      } | null)
+    | ({
+        relationTo: 'notices';
+        value: number | Notice;
+      } | null)
+    | ({
+        relationTo: 'portfolio-projects';
+        value: number | PortfolioProject;
+      } | null)
+    | ({
+        relationTo: 'brands';
+        value: number | Brand;
+      } | null)
+    | ({
+        relationTo: 'architect-resources';
+        value: number | ArchitectResource;
+      } | null)
+    | ({
+        relationTo: 'services';
+        value: number | Service;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -490,6 +824,174 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  client?: T;
+  architect?: T;
+  status?: T;
+  city?: T;
+  documents?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents_select".
+ */
+export interface DocumentsSelect<T extends boolean = true> {
+  project?: T;
+  uploadedBy?: T;
+  fileUrl?: T;
+  fileType?: T;
+  label?: T;
+  visibleTo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "inquiries_select".
+ */
+export interface InquiriesSelect<T extends boolean = true> {
+  name?: T;
+  phone?: T;
+  email?: T;
+  message?: T;
+  source?: T;
+  user?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendors_select".
+ */
+export interface VendorsSelect<T extends boolean = true> {
+  name?: T;
+  phone?: T;
+  email?: T;
+  tradeType?: T;
+  city?: T;
+  licenseFile?: T;
+  extraFields?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendor-field-schema_select".
+ */
+export interface VendorFieldSchemaSelect<T extends boolean = true> {
+  label?: T;
+  fieldKey?: T;
+  fieldType?: T;
+  options?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  required?: T;
+  order?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rate-items_select".
+ */
+export interface RateItemsSelect<T extends boolean = true> {
+  category?: T;
+  serviceLabel?: T;
+  unit?: T;
+  mgArtsRate?: T;
+  marketRate?: T;
+  withMaterial?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notices_select".
+ */
+export interface NoticesSelect<T extends boolean = true> {
+  title?: T;
+  body?: T;
+  active?: T;
+  sendEmail?: T;
+  sentAt?: T;
+  targetRole?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "portfolio-projects_select".
+ */
+export interface PortfolioProjectsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  city?: T;
+  category?: T;
+  year?: T;
+  photos?: T;
+  brands?: T;
+  description?: T;
+  collaborator?: T;
+  metaTitle?: T;
+  metaDesc?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands_select".
+ */
+export interface BrandsSelect<T extends boolean = true> {
+  name?: T;
+  logo?: T;
+  authLetter?: T;
+  visible?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "architect-resources_select".
+ */
+export interface ArchitectResourcesSelect<T extends boolean = true> {
+  title?: T;
+  type?: T;
+  file?: T;
+  active?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  icon?: T;
+  withMaterial?: T;
+  active?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -527,6 +1029,304 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "landing-page".
+ */
+export interface LandingPage {
+  id: number;
+  blocks?:
+    | (
+        | {
+            heading: string;
+            subheading?: string | null;
+            ctaText?: string | null;
+            ctaLink?: string | null;
+            backgroundImage?: (number | null) | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            heading?: string | null;
+            items?:
+              | {
+                  title: string;
+                  description?: string | null;
+                  icon?: (number | null) | Media;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'value-props';
+          }
+        | {
+            heading?: string | null;
+            description?: string | null;
+            ctaText?: string | null;
+            ctaLink?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'rate-teaser';
+          }
+        | {
+            heading: string;
+            description?: string | null;
+            buttonText?: string | null;
+            buttonLink?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cta';
+          }
+      )[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page".
+ */
+export interface AboutPage {
+  id: number;
+  companyStory?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  teamMembers?:
+    | {
+        name: string;
+        role: string;
+        photo?: (number | null) | Media;
+        bio?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  brandsSection?: {
+    heading?: string | null;
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pmc-page".
+ */
+export interface PmcPage {
+  id: number;
+  intro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  services?:
+    | {
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  pastCollaborations?:
+    | {
+        architectFirm: string;
+        projectName: string;
+        city: string;
+        year: number;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  siteName?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  offices?:
+    | {
+        city: 'mumbai' | 'bangalore' | 'kolkata';
+        address: string;
+        phone?: string | null;
+        email?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  socialLinks?: {
+    instagram?: string | null;
+    linkedin?: string | null;
+    facebook?: string | null;
+    youtube?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "landing-page_select".
+ */
+export interface LandingPageSelect<T extends boolean = true> {
+  blocks?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              ctaText?: T;
+              ctaLink?: T;
+              backgroundImage?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'value-props'?:
+          | T
+          | {
+              heading?: T;
+              items?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    icon?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        'rate-teaser'?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              ctaText?: T;
+              ctaLink?: T;
+              id?: T;
+              blockName?: T;
+            };
+        cta?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              buttonText?: T;
+              buttonLink?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page_select".
+ */
+export interface AboutPageSelect<T extends boolean = true> {
+  companyStory?: T;
+  teamMembers?:
+    | T
+    | {
+        name?: T;
+        role?: T;
+        photo?: T;
+        bio?: T;
+        id?: T;
+      };
+  brandsSection?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pmc-page_select".
+ */
+export interface PmcPageSelect<T extends boolean = true> {
+  intro?: T;
+  services?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  pastCollaborations?:
+    | T
+    | {
+        architectFirm?: T;
+        projectName?: T;
+        city?: T;
+        year?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  siteName?: T;
+  phone?: T;
+  email?: T;
+  offices?:
+    | T
+    | {
+        city?: T;
+        address?: T;
+        phone?: T;
+        email?: T;
+        id?: T;
+      };
+  socialLinks?:
+    | T
+    | {
+        instagram?: T;
+        linkedin?: T;
+        facebook?: T;
+        youtube?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
