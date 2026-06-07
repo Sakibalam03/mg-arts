@@ -227,6 +227,12 @@
   background-size: 800px 100%;
 }
 
+/* ─── Form field input ───────────────────────────────────────────────────── */
+
+.field-input {
+  @apply w-full border border-border rounded-lg px-3.5 py-2.5 text-[14px] bg-background text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors duration-150;
+}
+
 /* ─── Rate Bar Animation ─────────────────────────────────────────────────── */
 
 @keyframes bar-fill {
