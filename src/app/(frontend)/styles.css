@@ -4,6 +4,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ─── Extra breakpoints not in Tailwind v4 defaults ─────────────────────── */
+@theme {
+  --breakpoint-xs: 25.8125rem;   /* 413px — used for max-xs: in mobile menu */
+  --breakpoint-3xl: 119.9375rem; /* 1919px — used for max-3xl: in container */
+}
+
 /* ─── MG Arts Design Tokens ─────────────────────────────────────────────── */
 
 :root {
@@ -138,6 +144,23 @@
   --color-accent-warm:             var(--accent-warm);
   --color-accent-hover:            var(--accent-hover);
 
+  /* Neon gray-new palette */
+  --color-black-pure: #000000;
+  --color-gray-new-8:  #131415;
+  --color-gray-new-10: #18191B;
+  --color-gray-new-20: #303236;
+  --color-gray-new-30: #454850;
+  --color-gray-new-40: #61646B;
+  --color-gray-new-50: #7C8087;
+  --color-gray-new-60: #94979E;
+  --color-gray-new-70: #AFB1B6;
+  --color-gray-new-80: #C9CBCF;
+  --color-gray-new-90: #E4E5E7;
+  --color-gray-new-94: #EFEFF0;
+  --color-gray-new-98: #FAFAFA;
+  --color-green-45:    #37C38F;
+  --color-green-52:    #34D59A;
+
   --radius-sm:  calc(var(--radius) * 0.6);
   --radius-md:  calc(var(--radius) * 0.8);
   --radius-lg:  var(--radius);
@@ -186,6 +209,12 @@
   background-size: 800px 100%;
   animation: shimmer 1.4s ease-in-out infinite;
   border-radius: 4px;
+}
+
+/* Neon navigation overlay — activates when any submenu is open */
+.header:has([aria-haspopup='menu'][aria-expanded='true']) + .navigation-overlay {
+  opacity: 1;
+  transition-delay: 0s;
 }
 
 .dark .skeleton {
