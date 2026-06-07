@@ -1,0 +1,148 @@
+'use client';
+
+import * as Toast from '@radix-ui/react-toast';
+import copyToClipboard from 'copy-to-clipboard';
+import { useState } from 'react';
+
+import LINKS from 'constants/links';
+import useContextMenu from 'hooks/use-context-menu';
+import LogoDarkIcon from 'icons/logo-dark.inline';
+import LogoLightIcon from 'icons/logo-light.inline';
+import logoDarkSvg from 'images/logo-dark';
+import logoLightSvg from 'images/logo-light';
+import { cn } from 'utils/cn';
+
+import Link from '../link';
+
+import CheckIcon from './images/check.inline';
+
+const copySvgToClipboard = async (): Promise<boolean> => {
+  try {
+    const isDarkMode = document.documentElement.classList.contains('dark');
+    const logoToUse = isDarkMode ? logoDarkSvg : logoLightSvg;
+
+    const response = await fetch(logoToUse.src);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch logo SVG: ${response.status} ${response.statusText}`);
+    }
+
+    const svgContent = await response.text();
+    const copied = copyToClipboard(svgContent);
+    if (!copied) {
+      throw new Error('Failed to copy SVG content to clipboard');
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Failed to copy SVG content: ', error);
+    return false;
+  }
+};
+
+const data = [
+  { name: 'Copy logo as SVG' },
+  { name: 'Download logo pack', url: '/brand/neon-brand-assets.zip' },
+  { name: 'View brand guidelines', url: LINKS.brand },
+];
+
+interface LogoProps {
+  className?: string | null;
+  width: number;
+  height: number;
+  isHeader?: boolean;
+  priority?: boolean;
+}
+
+const Logo = ({ className = null, width, height, isHeader = false }: LogoProps) => {
+  const { clicked, setClicked } = useContextMenu();
+  const [open, setOpen] = useState(false);
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setClicked(true);
+  };
+
+  const handleCopySvg = async () => {
+    const copied = await copySvgToClipboard();
+    if (copied) {
+      setOpen(true);
+    }
+  };
+
+  return (
+    <div className="relative shrink-0">
+      <Link
+        className="block w-fit focus-visible:outline-offset-4"
+        to="/"
+        onContextMenu={isHeader ? handleContextMenu : undefined}
+      >
+        <span className="sr-only">Neon</span>
+        <LogoLightIcon className={cn('dark:hidden', className)} width={width} height={height} />
+        <LogoDarkIcon
+          className={cn('hidden dark:block', className)}
+          width={width}
+          height={height}
+        />
+      </Link>
+      {isHeader && clicked && (
+        <div
+          className={cn(
+            'absolute top-10 z-50 flex min-w-[200px] flex-col items-start gap-1',
+            'border border-gray-new-80 bg-gray-new-98 p-2',
+            'shadow-[0_10px_20px_0_rgba(0,0,0,0.06)]',
+            'dark:border-gray-new-20 dark:bg-[#0A0A0B]',
+            'dark:shadow-[0_8px_20px_0_rgba(0,0,0,0.40)]'
+          )}
+        >
+          {data.map(({ name, url }) => {
+            const Tag = url ? 'a' : 'button';
+            return (
+              <Tag
+                className={cn(
+                  'group flex w-full items-center gap-x-2 p-3 whitespace-nowrap',
+                  'text-left text-[15px] leading-dense tracking-extra-tight text-gray-new-10',
+                  'transition-colors duration-200',
+                  'hover:bg-gray-new-90 hover:text-gray-new-10',
+                  'dark:text-gray-new-90 dark:hover:bg-gray-new-8'
+                )}
+                key={name}
+                href={url}
+                onClick={url ? undefined : handleCopySvg}
+              >
+                {name}
+              </Tag>
+            );
+          })}
+        </div>
+      )}
+      <Toast.Provider swipeDirection="right">
+        <Toast.Root
+          className={cn(
+            'rounded-lg border border-gray-new-94 bg-white px-[18px] py-3.5 text-gray-new-30',
+            'shadow-[rgba(14,18,22,0.35)_0px_10px_38px_-10px,_rgba(14,18,22,0.2)_0px_10px_20px_-15px]',
+            'data-[state=open]:animate-slideIn data-[state=closed]:animate-hide',
+            'data-[swipe=end]:animate-swipeOut data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)]',
+            'data-[swipe=cancel]:translate-x-0 data-[swipe=cancel]:transition-[transform_200ms_ease-out]',
+            'dark:border-[#16181D] dark:bg-[#0B0C0F] dark:text-gray-new-70',
+            'dark:shadow-[0px_14px_20px_0px_rgba(0,0,0,0.50)]'
+          )}
+          open={open}
+          onOpenChange={setOpen}
+        >
+          <Toast.Title className="flex items-center gap-x-2 text-sm leading-none tracking-snug whitespace-nowrap">
+            <CheckIcon />
+            Copied to clipboard!
+          </Toast.Title>
+        </Toast.Root>
+        <Toast.Viewport
+          className={cn(
+            'fixed right-0 bottom-0 z-[2147483647] m-0 flex w-[245px] max-w-[100vw] list-none flex-col gap-[10px]',
+            'p-[var(--viewport-padding)] outline-hidden [--viewport-padding:_25px]'
+          )}
+        />
+      </Toast.Provider>
+    </div>
+  );
+};
+
+export default Logo;
