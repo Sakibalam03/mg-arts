@@ -60,6 +60,7 @@ export const Documents: CollectionConfig = {
       admin: { readOnly: true },
     },
     { name: 'fileUrl', type: 'text', required: true, label: 'S3 Key / File URL' },
+    { name: 'fileName', type: 'text', label: 'Original Filename' },
     { name: 'fileType', type: 'text', label: 'MIME Type' },
     {
       name: 'label',

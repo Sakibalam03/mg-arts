@@ -384,6 +384,7 @@ export interface Document {
   project: number | Project;
   uploadedBy: number | User;
   fileUrl: string;
+  fileName?: string | null;
   fileType?: string | null;
   label: 'requirement' | 'quote' | 'boq' | 'drawing' | 'other';
   visibleTo: 'client' | 'architect' | 'admin' | 'all';
@@ -849,6 +850,7 @@ export interface DocumentsSelect<T extends boolean = true> {
   project?: T;
   uploadedBy?: T;
   fileUrl?: T;
+  fileName?: T;
   fileType?: T;
   label?: T;
   visibleTo?: T;

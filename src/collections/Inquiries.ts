@@ -10,7 +10,12 @@ export const Inquiries: CollectionConfig = {
   },
   access: {
     create: () => true,
-    read: isAdmin,
+    read: ({ req }) => {
+      const user = req.user as any
+      if (!user) return false
+      if (user.role === 'admin') return true
+      return { user: { equals: user.id } }
+    },
     update: isAdmin,
     delete: isAdmin,
   },
