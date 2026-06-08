@@ -52,7 +52,7 @@ export default function MgArts3D() {
   return (
     <div
       ref={containerRef}
-      className="relative pt-16 -mb-[14.5rem] sm:-mb-[10rem]"
+      className="relative pt-3 -mb-[12rem] max-sm:-mb-[6rem]"
     >
       <div
         className="relative w-full"
@@ -65,6 +65,14 @@ export default function MgArts3D() {
           imageRendering: 'crisp-edges',
         }}
       >
+        {/* permanent ambient base — keeps letters faintly visible when mouse is far */}
+        <div
+          className="absolute inset-0 z-[4]"
+          style={{
+            background:
+              'radial-gradient(ellipse 80% 60% at center, rgba(255,255,255,0.08) 0%, transparent 100%)',
+          }}
+        />
         {/* grain texture */}
         <div
           className="absolute inset-0 z-[5]"
