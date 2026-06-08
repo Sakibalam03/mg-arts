@@ -20,7 +20,7 @@ export default async function RatesPage() {
   return (
     <div className="flex flex-col">
       {/* Header */}
-      <section className="px-6 pt-16 pb-10 max-w-5xl mx-auto w-full">
+      <section className="px-6 max-sm:px-4 pt-16 max-sm:pt-10 pb-10 max-w-5xl mx-auto w-full">
         <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-5">
           Transparent Pricing
         </p>
@@ -48,7 +48,7 @@ export default async function RatesPage() {
       </section>
 
       {/* Chart */}
-      <section className="px-6 pb-20 max-w-5xl mx-auto w-full">
+      <section className="px-6 max-sm:px-4 pb-20 max-sm:pb-12 max-w-5xl mx-auto w-full">
         {items.length === 0 ? (
           <div className="border border-border rounded-lg p-10 text-center text-muted-foreground text-[14px]">
             Rate data coming soon — check back shortly.

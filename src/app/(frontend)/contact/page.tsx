@@ -29,7 +29,7 @@ export default async function ContactPage() {
   return (
     <div className="flex flex-col">
       {/* Header */}
-      <section className="px-6 pt-16 pb-10 max-w-5xl mx-auto w-full">
+      <section className="px-6 max-sm:px-4 pt-16 max-sm:pt-10 pb-10 max-w-5xl mx-auto w-full">
         <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-5">
           Get in Touch
         </p>
@@ -43,7 +43,7 @@ export default async function ContactPage() {
       </section>
 
       {/* Two-column content */}
-      <section className="px-6 pb-20 max-w-5xl mx-auto w-full">
+      <section className="px-6 max-sm:px-4 pb-20 max-sm:pb-12 max-w-5xl mx-auto w-full">
         <div className="grid grid-cols-[1fr,360px] gap-14 max-lg:grid-cols-1 max-lg:gap-10">
           {/* Form */}
           <div>

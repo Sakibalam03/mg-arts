@@ -22,7 +22,7 @@ export default async function AboutPage() {
   return (
     <div className="flex flex-col">
       {/* Hero */}
-      <section className="px-6 pt-16 pb-14 max-w-5xl mx-auto w-full">
+      <section className="px-6 max-sm:px-4 pt-16 max-sm:pt-10 pb-14 max-sm:pb-10 max-w-5xl mx-auto w-full">
         <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-5">
           Our Story
         </p>
@@ -46,7 +46,7 @@ export default async function AboutPage() {
 
       {/* Pillars */}
       <div className="border-y border-border bg-secondary">
-        <div className="max-w-5xl mx-auto px-6 py-12 grid grid-cols-3 gap-8 max-sm:grid-cols-1">
+        <div className="max-w-5xl mx-auto px-6 max-sm:px-4 py-12 grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-8 max-sm:gap-6">
           {[
             { label: 'One Partner', text: 'Civil, electrical, plumbing, carpentry — one team, one contract, one point of accountability.' },
             { label: 'Transparent Rates', text: 'All rates are published publicly. No hidden markups, no padding. Our pricing updates as material costs change.' },
@@ -62,7 +62,7 @@ export default async function AboutPage() {
 
       {/* Team */}
       {teamMembers.length > 0 && (
-        <section className="px-6 py-16 max-w-5xl mx-auto w-full">
+        <section className="px-6 max-sm:px-4 py-16 max-sm:py-12 max-w-5xl mx-auto w-full">
           <h2 className="font-sans font-bold text-[1.25rem] tracking-tight text-foreground mb-8">
             Our Team
           </h2>
@@ -99,12 +99,12 @@ export default async function AboutPage() {
       )}
 
       {/* Cities */}
-      <section className="bg-secondary border-t border-border px-6 py-14">
+      <section className="bg-secondary border-t border-border px-6 max-sm:px-4 py-14 max-sm:py-10">
         <div className="max-w-5xl mx-auto">
           <h2 className="font-sans font-bold text-[1.25rem] tracking-tight text-foreground mb-8">
             Where we operate
           </h2>
-          <div className="grid grid-cols-3 gap-6 max-sm:grid-cols-1">
+          <div className="grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-6 max-sm:gap-4">
             {[
               { city: 'Mumbai', note: 'Primary operations hub' },
               { city: 'Bangalore', note: 'South India projects' },

@@ -43,7 +43,7 @@ export default async function ServicesPage() {
   return (
     <div className="flex flex-col">
       {/* Header */}
-      <section className="px-6 pt-16 pb-10 max-w-5xl mx-auto w-full">
+      <section className="px-6 max-sm:px-4 pt-16 max-sm:pt-10 pb-10 max-w-5xl mx-auto w-full">
         <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-5">
           What We Do
         </p>
@@ -57,7 +57,7 @@ export default async function ServicesPage() {
       </section>
 
       {/* Service grid grouped by category */}
-      <section className="px-6 pb-20 max-w-5xl mx-auto w-full">
+      <section className="px-6 max-sm:px-4 pb-20 max-sm:pb-12 max-w-5xl mx-auto w-full">
         {services.length > 0 ? (
           /* CMS-driven: flat grid */
           <div className="grid grid-cols-3 gap-4 max-lg:grid-cols-2 max-sm:grid-cols-1">

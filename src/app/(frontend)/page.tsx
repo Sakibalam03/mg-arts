@@ -96,33 +96,33 @@ export default async function HomePage() {
     <div className="flex flex-col">
       {/* Notice Banner */}
       {noticeTitle && (
-        <div className="bg-primary text-primary-foreground py-2.5 px-6 text-center text-[13px] font-medium">
+        <div className="bg-primary text-primary-foreground py-2.5 px-4 text-center text-[13px] font-medium">
           {noticeTitle}
         </div>
       )}
 
       {/* ── Hero ────────────────────────────────────────────────────────── */}
-      <section className="px-6 pt-20 pb-24 max-w-6xl mx-auto w-full max-lg:pt-14 max-lg:pb-16 max-sm:pt-10 max-sm:pb-12">
+      <section className="px-6 max-sm:px-4 pt-20 pb-24 max-lg:pt-14 max-lg:pb-16 max-sm:pt-10 max-sm:pb-12 max-w-6xl mx-auto w-full">
         <div className="max-w-[680px]">
           <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-6">
             Interior Design & Execution
           </p>
-          <h1 className="font-sans font-extrabold text-[clamp(2.5rem,6vw,4.5rem)] leading-[1.05] tracking-[-0.03em] text-foreground mb-6 whitespace-pre-line">
+          <h1 className="font-sans font-extrabold text-[clamp(2rem,6vw,4.5rem)] leading-[1.05] tracking-[-0.03em] text-foreground mb-6 whitespace-pre-line">
             {headline}
           </h1>
-          <p className="text-[1.0625rem] text-muted-foreground leading-relaxed max-w-[500px] mb-9">
+          <p className="text-[1.0625rem] max-sm:text-[15px] text-muted-foreground leading-relaxed max-w-[500px] mb-9">
             {subheadline}
           </p>
-          <div className="flex gap-3 flex-wrap">
+          <div className="flex gap-3 flex-wrap max-sm:flex-col">
             <Link
               href={heroCta.href}
-              className="inline-flex items-center justify-center bg-primary text-primary-foreground font-semibold text-[14px] px-7 py-3 rounded-lg hover:bg-accent-hover transition-colors duration-200"
+              className="inline-flex items-center justify-center bg-primary text-primary-foreground font-semibold text-[14px] px-7 py-3 rounded-lg hover:bg-accent-hover transition-colors duration-200 max-sm:w-full"
             >
               {heroCta.text}
             </Link>
             <Link
               href="/rates"
-              className="inline-flex items-center justify-center border border-border text-foreground font-semibold text-[14px] px-7 py-3 rounded-lg hover:border-foreground/30 transition-colors duration-200"
+              className="inline-flex items-center justify-center border border-border text-foreground font-semibold text-[14px] px-7 py-3 rounded-lg hover:border-foreground/30 transition-colors duration-200 max-sm:w-full"
             >
               See Our Rates →
             </Link>
@@ -132,7 +132,7 @@ export default async function HomePage() {
 
       {/* ── Stats Bar ───────────────────────────────────────────────────── */}
       <div className="border-y border-border bg-secondary">
-        <div className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-3 max-sm:grid-cols-1 divide-x divide-border max-sm:divide-x-0 max-sm:divide-y">
+        <div className="max-w-6xl mx-auto px-6 max-sm:px-4 py-10 grid grid-cols-3 max-sm:grid-cols-1 divide-x divide-border max-sm:divide-x-0 max-sm:divide-y">
           {STATS.map(({ value, label }) => (
             <div
               key={label}
@@ -150,7 +150,7 @@ export default async function HomePage() {
       </div>
 
       {/* ── What We Do ──────────────────────────────────────────────────── */}
-      <section className="px-6 py-20 max-w-6xl mx-auto w-full max-lg:py-14">
+      <section className="px-6 max-sm:px-4 py-20 max-lg:py-14 max-sm:py-12 max-w-6xl mx-auto w-full">
         <h2 className="font-sans font-extrabold text-[clamp(1.5rem,4vw,2.25rem)] tracking-[-0.03em] text-foreground mb-2">
           Everything under one roof.
         </h2>
@@ -173,7 +173,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── Rate Teaser ─────────────────────────────────────────────────── */}
-      <section className="bg-black-pure border-y border-[#1a1a1a] py-20 px-6">
+      <section className="bg-black-pure border-y border-[#1a1a1a] py-20 max-sm:py-12 px-6 max-sm:px-4">
         <div className="max-w-4xl mx-auto">
           <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-3">
             Transparent Pricing
@@ -248,7 +248,7 @@ export default async function HomePage() {
 
           <Link
             href="/rates"
-            className="inline-flex items-center justify-center border border-[#333] text-white font-semibold text-[14px] px-6 py-3 rounded-lg hover:border-[#555] transition-colors duration-200"
+            className="inline-flex items-center justify-center border border-[#333] text-white font-semibold text-[14px] px-6 py-3 rounded-lg hover:border-[#555] transition-colors duration-200 max-sm:w-full max-sm:justify-center"
           >
             View Full Rate Chart →
           </Link>
@@ -256,14 +256,14 @@ export default async function HomePage() {
       </section>
 
       {/* ── CTA Banner ──────────────────────────────────────────────────── */}
-      <section className="px-6 py-24 max-w-6xl mx-auto w-full text-center max-lg:py-16">
+      <section className="px-6 max-sm:px-4 py-24 max-lg:py-16 max-sm:py-12 max-w-6xl mx-auto w-full text-center">
         <p className="font-serif italic text-muted-foreground text-[1.0625rem] mb-4">
           Free site visit for projects above ₹5 lakhs.
         </p>
         <h2 className="font-sans font-extrabold text-[clamp(1.75rem,4vw,2.75rem)] tracking-[-0.03em] text-foreground mb-8">
           {ctaHeading}
         </h2>
-        <div className="flex gap-3 justify-center flex-wrap">
+        <div className="flex gap-3 justify-center flex-wrap max-sm:flex-col max-sm:items-stretch">
           <Link
             href={ctaButton.href}
             className="inline-flex items-center justify-center bg-primary text-primary-foreground font-semibold text-[14px] px-8 py-3.5 rounded-lg hover:bg-accent-hover transition-colors duration-200"

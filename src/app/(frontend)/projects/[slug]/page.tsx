@@ -61,7 +61,7 @@ export default async function ProjectDetailPage({
 
   return (
     <div className="flex flex-col">
-      <article className="px-6 pt-14 pb-20 max-w-4xl mx-auto w-full">
+      <article className="px-6 max-sm:px-4 pt-14 max-sm:pt-10 pb-20 max-sm:pb-12 max-w-4xl mx-auto w-full">
         {/* Breadcrumb meta */}
         <p className="text-[12px] text-muted-foreground capitalize mb-3">
           {project.category} · {project.city} · {project.year}
@@ -87,7 +87,7 @@ export default async function ProjectDetailPage({
                 className={[
                   'rounded-lg overflow-hidden bg-secondary',
                   i === 0 && photos.length > 2 ? 'col-span-2 max-sm:col-span-1' : '',
-                  photos.length === 1 ? 'h-[420px]' : 'aspect-[4/3]',
+                  photos.length === 1 ? 'h-[280px] sm:h-[420px]' : 'aspect-[4/3]',
                 ].join(' ')}
               >
                 <img

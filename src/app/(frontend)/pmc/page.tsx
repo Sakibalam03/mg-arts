@@ -32,7 +32,7 @@ export default async function PmcPage() {
   return (
     <div className="flex flex-col">
       {/* Hero */}
-      <section className="px-6 pt-16 pb-14 max-w-5xl mx-auto w-full">
+      <section className="px-6 max-sm:px-4 pt-16 max-sm:pt-10 pb-14 max-sm:pb-10 max-w-5xl mx-auto w-full">
         <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-5">
           For Architect Firms
         </p>
@@ -44,16 +44,16 @@ export default async function PmcPage() {
           electrical, plumbing, and carpentry to your drawings. One contract, one team,
           zero coordination overhead for you.
         </p>
-        <div className="flex gap-3 flex-wrap">
+        <div className="flex gap-3 flex-wrap max-sm:flex-col">
           <Link
             href="/auth?role=architect"
-            className="inline-flex items-center justify-center bg-primary text-primary-foreground font-semibold text-[14px] px-7 py-3 rounded-lg hover:bg-accent-hover transition-colors duration-200"
+            className="inline-flex items-center justify-center bg-primary text-primary-foreground font-semibold text-[14px] px-7 py-3 rounded-lg hover:bg-accent-hover transition-colors duration-200 max-sm:w-full"
           >
             Register as an Architect Partner
           </Link>
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center border border-border text-foreground font-semibold text-[14px] px-7 py-3 rounded-lg hover:border-foreground/30 transition-colors duration-200"
+            className="inline-flex items-center justify-center border border-border text-foreground font-semibold text-[14px] px-7 py-3 rounded-lg hover:border-foreground/30 transition-colors duration-200 max-sm:w-full"
           >
             Send a Project Brief
           </Link>
@@ -61,7 +61,7 @@ export default async function PmcPage() {
       </section>
 
       {/* What we handle */}
-      <section className="bg-secondary border-y border-border px-6 py-16">
+      <section className="bg-secondary border-y border-border px-6 max-sm:px-4 py-16 max-sm:py-12">
         <div className="max-w-5xl mx-auto">
           <h2 className="font-sans font-bold text-[1.25rem] tracking-tight text-foreground mb-8">
             What we handle end-to-end
@@ -83,7 +83,7 @@ export default async function PmcPage() {
       </section>
 
       {/* How it works */}
-      <section className="px-6 py-16 max-w-5xl mx-auto w-full">
+      <section className="px-6 max-sm:px-4 py-16 max-sm:py-12 max-w-5xl mx-auto w-full">
         <h2 className="font-sans font-bold text-[1.25rem] tracking-tight text-foreground mb-8">
           How the partnership works
         </h2>
@@ -105,7 +105,7 @@ export default async function PmcPage() {
 
       {/* Past collaborations */}
       {pastCollaborations.length > 0 && (
-        <section className="bg-secondary border-t border-border px-6 py-14">
+        <section className="bg-secondary border-t border-border px-6 max-sm:px-4 py-14 max-sm:py-10">
           <div className="max-w-5xl mx-auto">
             <h2 className="font-sans font-bold text-[1.25rem] tracking-tight text-foreground mb-8">
               Past collaborations
@@ -131,7 +131,7 @@ export default async function PmcPage() {
       )}
 
       {/* CTA */}
-      <div className="border-t border-border px-6 py-14 text-center">
+      <div className="border-t border-border px-6 max-sm:px-4 py-14 max-sm:py-10 text-center">
         <h2 className="font-sans font-extrabold text-[1.5rem] tracking-[-0.03em] text-foreground mb-2">
           Ready to partner?
         </h2>

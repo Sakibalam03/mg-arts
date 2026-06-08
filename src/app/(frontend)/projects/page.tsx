@@ -36,7 +36,7 @@ export default async function ProjectsPage({
   return (
     <div className="flex flex-col">
       {/* Header */}
-      <section className="px-6 pt-16 pb-10 max-w-6xl mx-auto w-full">
+      <section className="px-6 max-sm:px-4 pt-16 max-sm:pt-10 pb-10 max-w-6xl mx-auto w-full">
         <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-5">
           Portfolio
         </p>
@@ -49,7 +49,7 @@ export default async function ProjectsPage({
       </section>
 
       {/* Category filters */}
-      <div className="px-6 max-w-6xl mx-auto w-full pb-8">
+      <div className="px-6 max-sm:px-4 max-w-6xl mx-auto w-full pb-8">
         <div className="flex gap-2 flex-wrap">
           {CATEGORIES.map((cat) => {
             const isActive = cat === activeCategory
@@ -73,7 +73,7 @@ export default async function ProjectsPage({
       </div>
 
       {/* Grid */}
-      <section className="px-6 pb-20 max-w-6xl mx-auto w-full">
+      <section className="px-6 max-sm:px-4 pb-20 max-sm:pb-12 max-w-6xl mx-auto w-full">
         {projects.length === 0 ? (
           <div className="border border-border rounded-lg p-12 text-center">
             <p className="text-muted-foreground text-[14px]">
