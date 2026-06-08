@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { headers } from 'next/headers'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { auth } from '@/lib/auth'
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,11 +19,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Name and phone are required.' }, { status: 400 })
     }
 
-    const payload = await getPayload({ config: await config })
+    const session = await auth.api.getSession({ headers: await headers() })
+
+    const payload = await getPayload({ config })
 
     const inquiry = await payload.create({
       collection: 'inquiries',
-      // Payload's overloads conflict with optional fields; runtime validates schema
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data: {
         name,
@@ -29,6 +32,7 @@ export async function POST(req: NextRequest) {
         email: email ?? null,
         message: message ?? null,
         source: source ?? 'contact',
+        ...(session ? { user: Number(session.user.id) } : {}),
       } as any,
     })
 

@@ -30,7 +30,7 @@ payload.config.ts
 ```
 /api/auth/[...all]/route.ts  ← BetterAuth catch-all (OTP send/verify, OAuth callbacks)
 /cms/admin                   ← Payload admin (BetterAuth session, UI unchanged for now)
-/dashboard/*                 ← Gated by Next.js middleware
+/dashboard/*                 ← Gated by proxy.ts (Next.js 16 middleware pattern)
 /auth/*                      ← Public auth pages
 ```
 
@@ -77,24 +77,24 @@ payload.config.ts
 
 ---
 
-## Middleware
+## Middleware (Next.js 16 proxy pattern)
 
-File: `src/middleware.ts`
+Route protection logic lives in `src/proxy.ts` (exported `proxy` function + `config`). A thin `src/middleware.ts` re-exports it so the logic is unit-testable without a running Next.js server.
 
 ```
 /dashboard/*
-  → no session   → redirect /auth?next=<path>
-  → session      → allow
+  → no session cookie   → redirect /auth?next=<path>
+  → session cookie      → allow
 
 /auth/*
-  → session      → redirect /dashboard
-  → no session   → allow
+  → session cookie      → redirect /dashboard
+  → no session cookie   → allow
 
 /cms/*, /api/*, everything else
-  → allow (no middleware interference)
+  → allow (no interference)
 ```
 
-Session is read from the BetterAuth signed cookie — no DB call in middleware.
+Session is read from the BetterAuth signed cookie via `getSessionCookie(request)` — no DB call in middleware.
 
 ---
 
@@ -145,7 +145,8 @@ src/
 │       └── dashboard/
 │           ├── layout.tsx                   # Protected shell (placeholder)
 │           └── page.tsx                     # Dashboard home (placeholder)
-├── middleware.ts                            # Route protection
+├── proxy.ts                                 # Route protection logic (unit-testable)
+├── middleware.ts                            # Thin re-export: export { proxy as middleware, config } from './proxy'
 └── collections/
     └── Users.ts                             # Stripped to display config only
 payload.config.ts                            # + betterAuthPlugin(), remove auth:true

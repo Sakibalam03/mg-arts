@@ -1,10 +1,6 @@
 import React from 'react'
 import { DM_Sans, Geist_Mono, Instrument_Serif } from 'next/font/google'
 import { Providers } from '@/components/providers'
-import SiteNav from '@/components/site-nav'
-import SiteFooter from '@/components/site-footer'
-import Topbar from 'components/shared/topbar/topbar'
-import TopbarProvider from 'components/shared/topbar/topbar-provider'
 import './styles.css'
 
 const dmSans = DM_Sans({
@@ -43,14 +39,7 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
       className={`${dmSans.variable} ${geistMono.variable} ${instrumentSerif.variable}`}
     >
       <body className="flex min-h-screen flex-col">
-        <Providers>
-          <TopbarProvider>
-            <Topbar />
-            <SiteNav />
-            <main className="flex-1">{children}</main>
-            <SiteFooter />
-          </TopbarProvider>
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   )
