@@ -8,7 +8,7 @@ await payload.updateGlobal({
   data: {
     topbar: {
       enabled: true,
-      text: 'Free site visit & consultation for projects above ₹5 lakhs — Book now and get a detailed quote within 48 hours.',
+      text: 'Free site visit & consultation for projects above ₹5 lakhs - Book now and get a detailed quote within 48 hours.',
       linkUrl: '/contact',
     },
   } as any,
