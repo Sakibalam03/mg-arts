@@ -2,7 +2,7 @@ import { getPayload } from 'payload'
 import type { Where } from 'payload'
 import config from '@payload-config'
 import type { LandingPage, Notice, Service, RateItem, PortfolioProject, SiteSetting } from '@/payload-types'
-import type { NavItem } from '@/types/nav'
+import type { NavItem, FooterColumn } from '@/types/nav'
 import MENUS from 'constants/menus'
 
 async function db() {
@@ -103,6 +103,11 @@ export async function getPortfolioProjectSlugs(): Promise<string[]> {
 
 const DEFAULT_NAV: NavItem[] = MENUS.header as NavItem[]
 
+const DEFAULT_FOOTER: FooterColumn[] = MENUS.footer.map((col) => ({
+  heading: col.heading,
+  items: col.items.map((item) => ({ text: item.text, link: item.to ?? '' })),
+}))
+
 export async function getNavigation(): Promise<NavItem[]> {
   try {
     const payload = await db()
@@ -122,5 +127,36 @@ export async function getNavigation(): Promise<NavItem[]> {
     }))
   } catch {
     return DEFAULT_NAV
+  }
+}
+
+export interface FooterData {
+  tagline: string
+  copyrightName: string
+  columns: FooterColumn[]
+}
+
+const DEFAULT_FOOTER_DATA: FooterData = {
+  tagline: 'Interior Execution & PMC',
+  copyrightName: 'MG Arts',
+  columns: DEFAULT_FOOTER,
+}
+
+export async function getFooter(): Promise<FooterData> {
+  try {
+    const payload = await db()
+    const footer = await payload.findGlobal({ slug: 'footer' })
+    return {
+      tagline: footer.tagline || DEFAULT_FOOTER_DATA.tagline,
+      copyrightName: footer.copyrightName || DEFAULT_FOOTER_DATA.copyrightName,
+      columns: footer.columns?.length
+        ? footer.columns.map((col) => ({
+            heading: col.heading,
+            items: (col.items ?? []).map((item) => ({ text: item.text, link: item.link })),
+          }))
+        : DEFAULT_FOOTER,
+    }
+  } catch {
+    return DEFAULT_FOOTER_DATA
   }
 }

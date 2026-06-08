@@ -28,6 +28,7 @@ import { AboutPage } from './globals/AboutPage'
 import { PmcPage } from './globals/PmcPage'
 import { SiteSettings } from './globals/SiteSettings'
 import { Navigation } from './globals/Navigation'
+import { Footer } from './globals/Footer'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -60,7 +61,7 @@ export default buildConfig({
     ArchitectResources,
     Services,
   ],
-  globals: [LandingPage, AboutPage, PmcPage, SiteSettings, Navigation],
+  globals: [LandingPage, AboutPage, PmcPage, SiteSettings, Navigation, Footer],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

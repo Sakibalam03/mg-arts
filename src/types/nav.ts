@@ -14,3 +14,13 @@ export interface NavItem {
   to?: string
   sections?: NavSection[]
 }
+
+export interface FooterLink {
+  text: string
+  link: string
+}
+
+export interface FooterColumn {
+  heading: string
+  items: FooterLink[]
+}

@@ -128,6 +128,7 @@ export interface Config {
     'pmc-page': PmcPage;
     'site-settings': SiteSetting;
     navigation: Navigation;
+    footer: Footer;
   };
   globalsSelect: {
     'landing-page': LandingPageSelect<false> | LandingPageSelect<true>;
@@ -135,6 +136,7 @@ export interface Config {
     'pmc-page': PmcPageSelect<false> | PmcPageSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     navigation: NavigationSelect<false> | NavigationSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: null;
   widgets: {
@@ -1250,6 +1252,41 @@ export interface Navigation {
   createdAt?: string | null;
 }
 /**
+ * Manage footer link columns
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  /**
+   * Short descriptor shown below the logo
+   */
+  tagline?: string | null;
+  /**
+   * Name used in the © copyright line (year is added automatically)
+   */
+  copyrightName?: string | null;
+  /**
+   * Each column appears as a group of links in the footer.
+   */
+  columns?:
+    | {
+        heading: string;
+        items?:
+          | {
+              text: string;
+              link: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "landing-page_select".
  */
@@ -1417,6 +1454,30 @@ export interface NavigationSelect<T extends boolean = true> {
                     description?: T;
                     id?: T;
                   };
+              id?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  tagline?: T;
+  copyrightName?: T;
+  columns?:
+    | T
+    | {
+        heading?: T;
+        items?:
+          | T
+          | {
+              text?: T;
+              link?: T;
               id?: T;
             };
         id?: T;
