@@ -127,12 +127,14 @@ export interface Config {
     'about-page': AboutPage;
     'pmc-page': PmcPage;
     'site-settings': SiteSetting;
+    navigation: Navigation;
   };
   globalsSelect: {
     'landing-page': LandingPageSelect<false> | LandingPageSelect<true>;
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
     'pmc-page': PmcPageSelect<false> | PmcPageSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    navigation: NavigationSelect<false> | NavigationSelect<true>;
   };
   locale: null;
   widgets: {
@@ -1190,6 +1192,53 @@ export interface SiteSetting {
   createdAt?: string | null;
 }
 /**
+ * Manage top navigation links and dropdown menus
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation".
+ */
+export interface Navigation {
+  id: number;
+  /**
+   * Top-level links. Items with dropdown sections ignore the URL field.
+   */
+  items?:
+    | {
+        label: string;
+        /**
+         * Direct link URL. Leave blank when using dropdown sections.
+         */
+        link?: string | null;
+        /**
+         * Add sections to create a dropdown menu for this item.
+         */
+        sections?:
+          | {
+              /**
+               * Optional label shown above this group of links
+               */
+              title?: string | null;
+              items?:
+                | {
+                    title: string;
+                    link: string;
+                    /**
+                     * Short subtitle displayed below the link title
+                     */
+                    description?: string | null;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "landing-page_select".
  */
@@ -1323,6 +1372,36 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         linkedin?: T;
         facebook?: T;
         youtube?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation_select".
+ */
+export interface NavigationSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        label?: T;
+        link?: T;
+        sections?:
+          | T
+          | {
+              title?: T;
+              items?:
+                | T
+                | {
+                    title?: T;
+                    link?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        id?: T;
       };
   updatedAt?: T;
   createdAt?: T;

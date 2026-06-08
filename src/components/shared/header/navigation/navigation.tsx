@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 
 import Button from 'components/shared/button';
-import MENUS from 'constants/menus';
+import type { NavItem } from '@/types/nav';
 import useClickOutside from 'hooks/use-click-outside';
 import useIsTouchDevice from 'hooks/use-is-touch-device';
 import ChevronIcon from 'icons/chevron-down.inline';
@@ -13,7 +13,11 @@ import Submenu from '../submenu';
 
 const SUBMENU_LINK_CLASSNAME = 'main-navigation-submenu-link';
 
-const Navigation = () => {
+interface NavigationProps {
+  items: NavItem[];
+}
+
+const Navigation = ({ items }: NavigationProps) => {
   const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const [containerHeight, setContainerHeight] = useState(0);
@@ -67,13 +71,13 @@ const Navigation = () => {
   const handleMenuKeyDown = (e: React.KeyboardEvent, hasSubmenu: boolean, index: number) => {
     if (e.key === 'ArrowRight') {
       e.preventDefault();
-      const nextIndex = (index + 1) % MENUS.header.length;
+      const nextIndex = (index + 1) % items.length;
       (menuButtonRefs.current[nextIndex] as HTMLElement | null)?.focus();
     }
 
     if (e.key === 'ArrowLeft') {
       e.preventDefault();
-      const prevIndex = (index - 1 + MENUS.header.length) % MENUS.header.length;
+      const prevIndex = (index - 1 + items.length) % items.length;
       (menuButtonRefs.current[prevIndex] as HTMLElement | null)?.focus();
     }
 
@@ -234,7 +238,7 @@ const Navigation = () => {
   return (
     <nav className="group/main-nav max-lg:hidden">
       <ul className="flex items-center">
-        {MENUS.header.map(({ to, text, sections }, index) => {
+        {items.map(({ to, text, sections }, index) => {
           const hasSubmenu = (sections?.length ?? 0) > 0;
           const isActive = activeMenuIndex === index;
 
@@ -249,7 +253,7 @@ const Navigation = () => {
                   'group/main-nav-trigger relative flex items-center gap-x-1 rounded-sm px-3.5 text-[15px] leading-normal! font-normal tracking-snug whitespace-pre transition-colors duration-200 group-hover/main-nav:text-gray-new-30 hover:text-black-pure! dark:group-hover/main-nav:text-gray-new-70 dark:hover:text-white! max-xl:px-2.5',
                   {
                     '-ml-3.5 max-xl:-ml-2.5': index === 0,
-                    '-mr-3.5 max-xl:-mr-2.5': index === MENUS.header.length - 1,
+                    '-mr-3.5 max-xl:-mr-2.5': index === items.length - 1,
                     'text-black-pure! dark:text-white!': isActive,
                     'text-gray-new-30! dark:text-gray-new-70!':
                       activeMenuIndex !== null && !isActive,
@@ -285,6 +289,7 @@ const Navigation = () => {
       </ul>
 
       <Submenu
+        items={items}
         activeMenuIndex={activeMenuIndex}
         containerHeight={containerHeight}
         submenuContainerRef={submenuContainerRef}

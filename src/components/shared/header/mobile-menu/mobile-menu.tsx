@@ -6,35 +6,21 @@ import { useContext, useState } from 'react';
 import Button from 'components/shared/button';
 import InkeepTrigger from 'components/shared/inkeep-trigger';
 import Link from 'components/shared/link';
-import LINKS from 'constants/links';
-import MENUS from 'constants/menus';
 import { TopbarContext } from 'contexts/topbar-context';
 import useMobileMenu from 'hooks/use-mobile-menu';
+import type { NavItem } from '@/types/nav';
 import ChevronIcon from 'icons/chevron-down-thin.inline';
 import { cn } from 'utils/cn';
 
 import Burger from '../burger';
-import MenuBanner from '../menu-banner';
 import MobileMenuAuth from './mobile-menu-auth';
 
 const ANIMATION_DURATION = 0.2;
 
-interface MenuItem {
-  text: string;
-  to?: string;
-  sections?: {
-    title?: string;
-    items: { title: string; description?: React.ReactNode; to: string; isExternal?: boolean }[];
-  }[];
-  target?: string;
-  rel?: string;
-}
-
-const MobileMenuItem = ({ text, to, sections, ...otherProps }: MenuItem) => {
+const MobileMenuItem = ({ text, to, sections }: NavItem) => {
   const [isMenuItemOpen, setIsMenuItemOpen] = useState<boolean | undefined>();
-  const Tag = sections ? Button : Link;
+  const Tag = sections?.length ? Button : Link;
   const hasSubmenu = (sections?.length ?? 0) > 0;
-  const isProduct = text === 'Product';
 
   const handleMenuItemClick = () => {
     if (sections) {
@@ -54,10 +40,9 @@ const MobileMenuItem = ({ text, to, sections, ...otherProps }: MenuItem) => {
         to={to}
         tagName="Mobile Menu"
         handleClick={handleMenuItemClick}
-        {...(otherProps as Record<string, unknown>)}
       >
         {text}
-        {sections && <ChevronIcon className="ml-auto text-gray-new-30 dark:text-gray-new-70" />}
+        {sections?.length && <ChevronIcon className="ml-auto text-gray-new-30 dark:text-gray-new-70" />}
       </Tag>
       <LazyMotion features={domAnimation}>
         {hasSubmenu && (
@@ -79,16 +64,15 @@ const MobileMenuItem = ({ text, to, sections, ...otherProps }: MenuItem) => {
                         </h3>
                       )}
                       <ul className="flex flex-col gap-5">
-                        {items.map(({ title, description, to, isExternal }) => (
-                          <li key={title}>
+                        {items.map(({ title: itemTitle, description, to: itemTo }) => (
+                          <li key={itemTitle}>
                             <Link
                               className="grid gap-y-2 text-[13px] leading-tight tracking-snug text-gray-new-40 dark:text-gray-new-60"
-                              to={to}
-                              isExternal={isExternal}
+                              to={itemTo}
                               tagName="MobileMenu"
                             >
                               <span className="text-lg leading-none font-medium tracking-extra-tight text-black-pure dark:text-white max-sm:text-base">
-                                {title}
+                                {itemTitle}
                               </span>
                               {description}
                             </Link>
@@ -98,7 +82,6 @@ const MobileMenuItem = ({ text, to, sections, ...otherProps }: MenuItem) => {
                     </li>
                   ))}
                 </ul>
-                {isProduct && <MenuBanner />}
               </m.div>
             )}
           </AnimatePresence>
@@ -108,22 +91,13 @@ const MobileMenuItem = ({ text, to, sections, ...otherProps }: MenuItem) => {
   );
 };
 
-const mobileMenuItems: MenuItem[] = [
-  ...MENUS.header,
-  {
-    text: 'Discord',
-    to: LINKS.discord,
-    target: '_blank',
-    rel: 'noopener noreferrer',
-  },
-];
-
 interface MobileMenuProps {
   isDocPage?: boolean;
   docPageType?: string | null;
+  navItems?: NavItem[];
 }
 
-const MobileMenu = ({ isDocPage = false, docPageType = null }: MobileMenuProps) => {
+const MobileMenu = ({ isDocPage = false, docPageType = null, navItems = [] }: MobileMenuProps) => {
   const { isMobileMenuOpen, toggleMobileMenu } = useMobileMenu();
   const { hasTopbar } = useContext(TopbarContext);
 
@@ -146,7 +120,7 @@ const MobileMenu = ({ isDocPage = false, docPageType = null }: MobileMenuProps) 
             })}
           >
             <ul className="no-scrollbars flex h-full flex-col overflow-y-auto px-8 pt-1 max-sm:px-5 max-sm:pt-3">
-              {mobileMenuItems.map((item, index) => (
+              {navItems.map((item, index) => (
                 <MobileMenuItem key={index} {...item} />
               ))}
             </ul>

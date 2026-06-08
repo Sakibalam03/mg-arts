@@ -2,6 +2,8 @@ import { getPayload } from 'payload'
 import type { Where } from 'payload'
 import config from '@payload-config'
 import type { LandingPage, Notice, Service, RateItem, PortfolioProject, SiteSetting } from '@/payload-types'
+import type { NavItem } from '@/types/nav'
+import MENUS from 'constants/menus'
 
 async function db() {
   return getPayload({ config: await config })
@@ -97,4 +99,28 @@ export async function getPortfolioProjectSlugs(): Promise<string[]> {
     limit: 1000,
   })
   return docs.map((d) => d.slug ?? '').filter(Boolean)
+}
+
+const DEFAULT_NAV: NavItem[] = MENUS.header as NavItem[]
+
+export async function getNavigation(): Promise<NavItem[]> {
+  try {
+    const payload = await db()
+    const nav = await payload.findGlobal({ slug: 'navigation' })
+    if (!nav.items?.length) return DEFAULT_NAV
+    return nav.items.map((item) => ({
+      text: item.label,
+      to: item.link ?? undefined,
+      sections: item.sections?.map((section) => ({
+        title: section.title ?? undefined,
+        items: (section.items ?? []).map((sub) => ({
+          title: sub.title,
+          to: sub.link,
+          description: sub.description ?? undefined,
+        })),
+      })),
+    }))
+  } catch {
+    return DEFAULT_NAV
+  }
 }

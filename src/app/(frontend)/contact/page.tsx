@@ -4,7 +4,7 @@ import { InquiryForm } from '@/components/inquiry-form'
 export const metadata = {
   title: 'Contact',
   description:
-    'Get in touch with MG Arts — offices in Mumbai, Bangalore, and Kolkata. Free quote within 48 hours.',
+    'Get in touch with MG Arts - offices in Mumbai, Bangalore, and Kolkata. Free quote within 48 hours.',
 }
 
 const CITY_LABELS: Record<string, string> = {

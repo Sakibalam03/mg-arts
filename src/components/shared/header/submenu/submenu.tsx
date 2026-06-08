@@ -1,11 +1,10 @@
 import Container from 'components/shared/container';
 import Link from 'components/shared/link';
-import MENUS from 'constants/menus';
+import type { NavItem } from '@/types/nav';
 import { cn } from 'utils/cn';
 
-import MenuBanner from '../menu-banner';
-
 interface SubmenuProps {
+  items: NavItem[];
   activeMenuIndex: number | null;
   containerHeight: number;
   submenuContainerRef: React.RefObject<HTMLDivElement | null>;
@@ -16,6 +15,7 @@ interface SubmenuProps {
 }
 
 const Submenu = ({
+  items,
   activeMenuIndex,
   containerHeight,
   submenuContainerRef,
@@ -39,10 +39,9 @@ const Submenu = ({
     onMouseLeave={handleSubmenuLeave}
   >
     <div className="relative w-full" ref={submenuContainerRef}>
-      {MENUS.header.map((menu, index) => {
+      {items.map((menu, index) => {
         const isActive = activeMenuIndex === index;
         const sections = menu.sections || [];
-        const isProduct = menu.text === 'Product';
 
         return (
           <div
@@ -64,7 +63,7 @@ const Submenu = ({
                 size={1920}
               >
                 <ul className="flex gap-x-[128px] pl-[195px] max-xl:gap-x-5 max-xl:pl-[143px]" role="menu">
-                  {sections.map(({ title, items }, sectionIndex) => (
+                  {sections.map(({ title, items: sectionItems }, sectionIndex) => (
                     <li key={sectionIndex} role="none">
                       {title && (
                         <span
@@ -81,42 +80,28 @@ const Submenu = ({
                           title ? `submenu-${index}-section-${sectionIndex}` : undefined
                         }
                       >
-                        {items?.map(({ title, description, to, ...itemRest }) => {
-                          const isExternal = 'isExternal' in itemRest ? (itemRest as { isExternal?: boolean }).isExternal : undefined;
-                          return (
-                          <li key={title} role="none">
+                        {sectionItems?.map(({ title: itemTitle, description, to }) => (
+                          <li key={itemTitle} role="none">
                             <Link
                               className={`group ${submenuLinkClassName} -mx-1 -my-3 grid min-w-[224px] gap-y-2 rounded px-1 py-3 text-[13px] leading-tight tracking-snug text-gray-new-40 dark:text-gray-new-60`}
                               to={to}
-                              isExternal={isExternal}
                               tagName="Navigation"
-                              tagText={title}
+                              tagText={itemTitle}
                               role="menuitem"
                               tabIndex={isActive ? 0 : -1}
                               onKeyDown={handleSubmenuNavigation(index)}
                             >
                               <span className="text-lg leading-none font-medium text-black-pure transition-colors duration-200 group-hover:text-gray-new-20 dark:text-white dark:group-hover:text-gray-new-80">
-                                {title}
+                                {itemTitle}
                               </span>
                               {description}
                             </Link>
                           </li>
-                          );
-                        })}
+                        ))}
                       </ul>
                     </li>
                   ))}
                 </ul>
-                {isProduct && (
-                  <MenuBanner
-                    linkProps={{
-                      className: submenuLinkClassName,
-                      role: 'menuitem',
-                      tabIndex: isActive ? 0 : -1,
-                      onKeyDown: handleSubmenuNavigation(index) as unknown as React.KeyboardEventHandler<HTMLAnchorElement>,
-                    }}
-                  />
-                )}
               </Container>
             )}
           </div>

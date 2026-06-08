@@ -1,6 +1,7 @@
 import DocsHeader from 'components/pages/doc/docs-header';
 import Container from 'components/shared/container';
 import Logo from 'components/shared/logo';
+import type { NavItem } from '@/types/nav';
 
 import HeaderWrapper from './header-wrapper';
 import MobileMenu from './mobile-menu';
@@ -18,6 +19,7 @@ interface HeaderProps {
   docsBasePath?: string | null;
   customType?: { title: string; link: string } | null;
   isClient?: boolean;
+  navItems?: NavItem[];
 }
 
 const Header = ({
@@ -31,6 +33,7 @@ const Header = ({
   docsBasePath = null,
   customType = null,
   isClient = false,
+  navItems = [],
 }: HeaderProps) => (
   <>
     <HeaderWrapper
@@ -54,13 +57,13 @@ const Header = ({
         >
           <div className="flex items-center gap-x-[92px] max-xl:gap-x-10">
             <Logo width={102} height={28} priority isHeader />
-            <Navigation />
+            <Navigation items={navItems} />
           </div>
           <Sidebar isClient={isClient} />
         </Container>
       )}
     </HeaderWrapper>
-    <MobileMenu isDocPage={isDocPage} docPageType={docPageType} />
+    <MobileMenu isDocPage={isDocPage} docPageType={docPageType} navItems={navItems} />
   </>
 );
 

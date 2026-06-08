@@ -3,7 +3,7 @@ import type { Media } from '@/payload-types'
 
 export const metadata = {
   title: 'About',
-  description: 'The story behind MG Arts — team, mission, and execution philosophy.',
+  description: 'The story behind MG Arts - team, mission, and execution philosophy.',
 }
 
 function photoUrl(photo: number | Media | null | undefined): string | null {

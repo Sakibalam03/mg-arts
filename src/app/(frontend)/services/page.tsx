@@ -5,7 +5,7 @@ import type { Service } from '@/payload-types'
 export const metadata = {
   title: 'Services',
   description:
-    'Interior design and execution services from MG Arts — civil, electrical, plumbing, carpentry and more.',
+    'Interior design and execution services from MG Arts - civil, electrical, plumbing, carpentry and more.',
 }
 
 const DEFAULT_SERVICES: Pick<Service, 'id' | 'title' | 'withMaterial'>[] = [

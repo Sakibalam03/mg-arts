@@ -28,7 +28,7 @@ const instrumentSerif = Instrument_Serif({
 
 export const metadata = {
   title: {
-    default: 'MG Arts — Interior Design & Execution',
+    default: 'MG Arts - Interior Design & Execution',
     template: '%s | MG Arts',
   },
   description:

@@ -3,7 +3,7 @@ import { getLandingPage, getActiveNotice } from '@/lib/cms'
 import type { LandingPage } from '@/payload-types'
 
 export const metadata = {
-  title: 'MG Arts — Interior Design & Execution',
+  title: 'MG Arts - Interior Design & Execution',
   description:
     'Turnkey interior design. Civil, electrical, plumbing, carpentry. Transparent pricing, Pan-India delivery.',
 }
