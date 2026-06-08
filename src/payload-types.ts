@@ -1171,6 +1171,17 @@ export interface PmcPage {
 export interface SiteSetting {
   id: number;
   siteName?: string | null;
+  topbar?: {
+    enabled?: boolean | null;
+    /**
+     * The announcement text shown in the topbar
+     */
+    text?: string | null;
+    /**
+     * Where the topbar message links to (e.g. /contact)
+     */
+    linkUrl?: string | null;
+  };
   phone?: string | null;
   email?: string | null;
   offices?:
@@ -1354,6 +1365,13 @@ export interface PmcPageSelect<T extends boolean = true> {
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
   siteName?: T;
+  topbar?:
+    | T
+    | {
+        enabled?: T;
+        text?: T;
+        linkUrl?: T;
+      };
   phone?: T;
   email?: T;
   offices?:

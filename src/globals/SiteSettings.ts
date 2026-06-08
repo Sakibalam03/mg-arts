@@ -6,6 +6,31 @@ export const SiteSettings: GlobalConfig = {
   admin: { group: 'Settings' },
   fields: [
     { name: 'siteName', type: 'text', defaultValue: 'MG Arts' },
+    {
+      name: 'topbar',
+      type: 'group',
+      label: 'Topbar Banner',
+      fields: [
+        {
+          name: 'enabled',
+          type: 'checkbox',
+          label: 'Show topbar',
+          defaultValue: false,
+        },
+        {
+          name: 'text',
+          type: 'text',
+          label: 'Message',
+          admin: { description: 'The announcement text shown in the topbar' },
+        },
+        {
+          name: 'linkUrl',
+          type: 'text',
+          label: 'Link URL',
+          admin: { description: 'Where the topbar message links to (e.g. /contact)' },
+        },
+      ],
+    },
     { name: 'phone', type: 'text' },
     { name: 'email', type: 'email' },
     {
