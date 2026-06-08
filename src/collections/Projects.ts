@@ -1,6 +1,5 @@
-import type { CollectionConfig, Access } from 'payload'
-
-const isAdmin: Access = ({ req }) => (req.user as any)?.role === 'admin'
+import type { CollectionConfig } from 'payload'
+import { isAdmin, hasRole } from '@/lib/access'
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
@@ -13,7 +12,7 @@ export const Projects: CollectionConfig = {
     read: ({ req }) => {
       const user = req.user as any
       if (!user) return false
-      if (user.role === 'admin') return true
+      if (hasRole(user, 'admin')) return true
       const or: any[] = [{ client: { equals: user.id } }, { architect: { equals: user.id } }]
       return { or }
     },
@@ -56,7 +55,7 @@ export const Projects: CollectionConfig = {
       name: 'notes',
       type: 'richText',
       admin: {
-        condition: (_, __, { user }) => (user as any)?.role === 'admin',
+        condition: (_, __, { user }) => hasRole(user, 'admin'),
       },
     },
   ],

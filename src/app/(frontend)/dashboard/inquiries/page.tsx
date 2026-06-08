@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { auth } from '@/lib/auth'
+import { hasRole } from '@/lib/access'
 import type { Inquiry } from '@/payload-types'
 
 const STATUS_COLORS: Record<string, string> = {
@@ -15,8 +16,7 @@ export default async function InquiriesPage() {
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session) redirect('/auth')
 
-  const role = (session.user as any).role as string | undefined
-  if (role === 'architect') redirect('/dashboard')
+  if (hasRole(session.user, 'architect')) redirect('/dashboard')
 
   const payload = await getPayload({ config })
   const { docs: inquiries } = await payload.find({

@@ -1,6 +1,5 @@
-import type { CollectionConfig, Access } from 'payload'
-
-const isAdmin: Access = ({ req }) => (req.user as any)?.role === 'admin'
+import type { CollectionConfig } from 'payload'
+import { isAdmin, hasRole } from '@/lib/access'
 
 export const Notices: CollectionConfig = {
   slug: 'notices',
@@ -12,8 +11,7 @@ export const Notices: CollectionConfig = {
     create: isAdmin,
     read: ({ req }) => {
       const user = req.user as any
-      if (user?.role === 'admin') return true
-      // Public-facing active notices readable by all (for the banner)
+      if (hasRole(user, 'admin')) return true
       return { active: { equals: true } }
     },
     update: isAdmin,
@@ -22,7 +20,6 @@ export const Notices: CollectionConfig = {
   hooks: {
     beforeChange: [
       async ({ data, originalDoc }) => {
-        // Stamp sentAt on first email send; prevent duplicate blasts on re-save
         if (data.sendEmail && !originalDoc?.sentAt) {
           data.sentAt = new Date().toISOString()
         }

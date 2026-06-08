@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { auth } from '@/lib/auth'
+import { hasRole } from '@/lib/access'
 import type { Project } from '@/payload-types'
 
 const STATUS_COLORS: Record<string, string> = {
@@ -18,14 +19,11 @@ export default async function ProjectsListPage() {
   if (!session) redirect('/auth')
 
   const { user } = session
-  const role = (user as any).role as string | undefined
-
   const payload = await getPayload({ config })
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const where: any =
-    role === 'architect'
-      ? { architect: { equals: Number(user.id) } }
-      : { client: { equals: Number(user.id) } }
+  const where: any = hasRole(user, 'architect')
+    ? { architect: { equals: Number(user.id) } }
+    : { client: { equals: Number(user.id) } }
 
   const { docs: projects } = await payload.find({
     collection: 'projects',
@@ -38,7 +36,7 @@ export default async function ProjectsListPage() {
   return (
     <div className="p-8">
       <h1 className="font-serif text-2xl font-semibold text-[var(--text)] mb-6">
-        {role === 'architect' ? 'PMC Engagements' : 'My Projects'}
+        {hasRole(user, 'architect') ? 'PMC Engagements' : 'My Projects'}
       </h1>
 
       {projects.length === 0 ? (

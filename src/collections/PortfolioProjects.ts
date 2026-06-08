@@ -1,6 +1,6 @@
-import type { CollectionConfig, Access } from 'payload'
+import type { CollectionConfig } from 'payload'
+import { isAdmin } from '@/lib/access'
 
-const isAdmin: Access = ({ req }) => (req.user as any)?.role === 'admin'
 
 const slugify = (str: string) =>
   str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')

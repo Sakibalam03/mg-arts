@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { auth } from '@/lib/auth'
+import { hasRole } from '@/lib/access'
 import type { Project } from '@/payload-types'
 
 const STATUS_COLORS: Record<string, string> = {
@@ -18,9 +19,8 @@ export default async function DashboardPage() {
   if (!session) redirect('/auth')
 
   const { user } = session
-  const role = (user as any).role as string | undefined
 
-  if (role === 'architect' && !(user as any).approved) {
+  if (hasRole(user, 'architect') && !(user as any).approved) {
     return (
       <div className="p-8">
         <h1 className="font-serif text-2xl font-semibold text-[var(--text)] mb-2">Pending Approval</h1>
@@ -33,10 +33,9 @@ export default async function DashboardPage() {
 
   const payload = await getPayload({ config })
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const where: any =
-    role === 'architect'
-      ? { architect: { equals: Number(user.id) } }
-      : { client: { equals: Number(user.id) } }
+  const where: any = hasRole(user, 'architect')
+    ? { architect: { equals: Number(user.id) } }
+    : { client: { equals: Number(user.id) } }
 
   const { docs: projects } = await payload.find({
     collection: 'projects',
@@ -50,7 +49,7 @@ export default async function DashboardPage() {
     <div className="p-8">
       <h1 className="font-serif text-2xl font-semibold text-[var(--text)] mb-1">Overview</h1>
       <p className="text-sm text-[var(--text-muted)] mb-8">
-        {role === 'architect' ? 'Your PMC engagements with MG Arts.' : 'Your active projects with MG Arts.'}
+        {hasRole(user, 'architect') ? 'Your PMC engagements with MG Arts.' : 'Your active projects with MG Arts.'}
       </p>
 
       {projects.length === 0 ? (

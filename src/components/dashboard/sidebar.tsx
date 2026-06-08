@@ -20,8 +20,9 @@ const ARCHITECT_NAV = [
 export function DashboardSidebar() {
   const pathname = usePathname()
   const { data: session } = useSession()
-  const role = (session?.user as { role?: string })?.role ?? 'client'
-  const nav = role === 'architect' ? ARCHITECT_NAV : CLIENT_NAV
+  const rawRole = (session?.user as any)?.role
+  const isArchitect = Array.isArray(rawRole) ? rawRole.includes('architect') : rawRole === 'architect'
+  const nav = isArchitect ? ARCHITECT_NAV : CLIENT_NAV
 
   function handleSignOut() {
     signOut({ fetchOptions: { onSuccess: () => { window.location.replace('/auth') } } })
@@ -35,7 +36,7 @@ export function DashboardSidebar() {
 
       <nav className="flex-1 py-4">
         <p className="px-4 mb-2 text-[10px] font-bold uppercase tracking-widest text-[#444]">
-          {role === 'architect' ? 'Architect' : 'Client'}
+          {isArchitect ? 'Architect' : 'Client'}
         </p>
         {nav.map((item) => {
           const active = pathname === item.href

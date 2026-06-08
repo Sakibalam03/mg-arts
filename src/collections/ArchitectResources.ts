@@ -1,10 +1,5 @@
-import type { CollectionConfig, Access } from 'payload'
-
-const isAdmin: Access = ({ req }) => (req.user as any)?.role === 'admin'
-const isAdminOrArchitect: Access = ({ req }) => {
-  const role = (req.user as any)?.role
-  return role === 'admin' || role === 'architect'
-}
+import type { CollectionConfig } from 'payload'
+import { isAdmin, isAdminOrArchitect } from '@/lib/access'
 
 export const ArchitectResources: CollectionConfig = {
   slug: 'architect-resources',

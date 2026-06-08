@@ -1,6 +1,5 @@
-import type { CollectionConfig, Access } from 'payload'
-
-const isAdmin: Access = ({ req }) => (req.user as any)?.role === 'admin'
+import type { CollectionConfig } from 'payload'
+import { isAdmin, hasRole } from '@/lib/access'
 
 export const Documents: CollectionConfig = {
   slug: 'documents',
@@ -13,8 +12,8 @@ export const Documents: CollectionConfig = {
     read: ({ req }) => {
       const user = req.user as any
       if (!user) return false
-      if (user.role === 'admin') return true
-      const visibleToValue = user.role === 'architect' ? 'architect' : 'client'
+      if (hasRole(user, 'admin')) return true
+      const visibleToValue = hasRole(user, 'architect') ? 'architect' : 'client'
       const or: any[] = [
         { visibleTo: { in: [visibleToValue, 'all'] } },
         { uploadedBy: { equals: user.id } },
@@ -24,7 +23,7 @@ export const Documents: CollectionConfig = {
     update: ({ req }) => {
       const user = req.user as any
       if (!user) return false
-      if (user.role === 'admin') return true
+      if (hasRole(user, 'admin')) return true
       return { uploadedBy: { equals: user.id } }
     },
     delete: isAdmin,
@@ -35,9 +34,9 @@ export const Documents: CollectionConfig = {
         if (operation === 'create' && req.user) {
           data.uploadedBy = req.user.id
           if (!data.visibleTo) {
-            const role = (req.user as any).role
-            if (role === 'architect') data.visibleTo = 'architect'
-            else if (role === 'client') data.visibleTo = 'client'
+            const user = req.user as any
+            if (hasRole(user, 'architect')) data.visibleTo = 'architect'
+            else if (hasRole(user, 'client')) data.visibleTo = 'client'
             else data.visibleTo = 'admin'
           }
         }

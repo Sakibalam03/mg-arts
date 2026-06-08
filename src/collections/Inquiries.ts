@@ -1,6 +1,5 @@
-import type { CollectionConfig, Access } from 'payload'
-
-const isAdmin: Access = ({ req }) => (req.user as any)?.role === 'admin'
+import type { CollectionConfig } from 'payload'
+import { isAdmin, hasRole } from '@/lib/access'
 
 export const Inquiries: CollectionConfig = {
   slug: 'inquiries',
@@ -13,7 +12,7 @@ export const Inquiries: CollectionConfig = {
     read: ({ req }) => {
       const user = req.user as any
       if (!user) return false
-      if (user.role === 'admin') return true
+      if (hasRole(user, 'admin')) return true
       return { user: { equals: user.id } }
     },
     update: isAdmin,

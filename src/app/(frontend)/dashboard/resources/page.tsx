@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { auth } from '@/lib/auth'
+import { hasRole } from '@/lib/access'
 import type { ArchitectResource, Media } from '@/payload-types'
 
 const TYPE_LABELS: Record<string, string> = {
@@ -15,8 +16,7 @@ export default async function ResourcesPage() {
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session) redirect('/auth')
 
-  const role = (session.user as any).role as string | undefined
-  if (role !== 'architect' && role !== 'admin') redirect('/dashboard')
+  if (!hasRole(session.user, 'architect', 'admin')) redirect('/dashboard')
 
   const payload = await getPayload({ config })
   const { docs: resources } = await payload.find({
