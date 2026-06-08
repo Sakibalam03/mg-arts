@@ -1,4 +1,5 @@
 import React from 'react'
+import Script from 'next/script'
 import { DM_Sans, Geist_Mono, Instrument_Serif } from 'next/font/google'
 import { Providers } from '@/components/providers'
 import './styles.css'
@@ -38,6 +39,16 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
       suppressHydrationWarning
       className={`${dmSans.variable} ${geistMono.variable} ${instrumentSerif.variable}`}
     >
+      {/* Prevent FOUC: apply stored theme class before React hydrates */}
+      <Script id="theme-init" strategy="beforeInteractive">{`
+        try {
+          var t = localStorage.getItem('theme') || 'system';
+          var r = t === 'system'
+            ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+            : t;
+          document.documentElement.classList.add(r);
+        } catch(e) {}
+      `}</Script>
       <body className="flex min-h-screen flex-col">
         <Providers>{children}</Providers>
       </body>

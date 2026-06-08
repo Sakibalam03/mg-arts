@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useTheme } from 'next-themes'
+import { useTheme } from '@/lib/theme'
 import { cn } from '@/lib/utils'
 import { SunIcon, MoonIcon, SystemIcon } from './neon/icons'
 
