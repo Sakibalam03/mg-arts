@@ -103,7 +103,7 @@ const MobileMenu = ({ isDocPage = false, docPageType = null, navItems = [] }: Mo
 
   return (
     <>
-      <div className="absolute top-3 right-7 z-50 hidden gap-5 max-lg:flex max-lg:items-center max-lg:gap-x-4 max-sm:right-4">
+      <div className={cn("absolute right-7 z-50 hidden gap-5 max-lg:flex max-lg:items-center max-lg:gap-x-4 max-sm:right-4", hasTopbar ? "top-12" : "top-3")}>
         {isDocPage && <InkeepTrigger className="mobile-search" docPageType={docPageType} />}
         <Burger
           className="relative flex text-black dark:text-white"
