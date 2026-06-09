@@ -1,10 +1,12 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 
 const LABELS = ['requirement', 'quote', 'boq', 'drawing', 'other'] as const
 
-export function UploadForm({ projectId, onUploaded }: { projectId: string; onUploaded: () => void }) {
+export function UploadForm({ projectId }: { projectId: string }) {
+  const router = useRouter()
   const fileRef = useRef<HTMLInputElement>(null)
   const [label, setLabel] = useState<string>('requirement')
   const [status, setStatus] = useState<'idle' | 'uploading' | 'done' | 'error'>('idle')
@@ -52,7 +54,7 @@ export function UploadForm({ projectId, onUploaded }: { projectId: string; onUpl
 
       setStatus('done')
       if (fileRef.current) fileRef.current.value = ''
-      onUploaded()
+      router.refresh()
     } catch {
       setStatus('error')
     }

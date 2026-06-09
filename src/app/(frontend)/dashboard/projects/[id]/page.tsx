@@ -67,7 +67,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       </div>
 
       <div className="mb-8">
-        <UploadForm projectId={id} onUploaded={() => {}} />
+        <UploadForm projectId={id} />
       </div>
 
       <h2 className="font-bold text-base text-[var(--text)] mb-4">Documents</h2>
