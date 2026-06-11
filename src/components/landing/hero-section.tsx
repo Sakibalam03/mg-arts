@@ -3,11 +3,7 @@
 import Link from "next/link"
 import { motion, useReducedMotion } from "framer-motion"
 
-const PHOTOS = [
-  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=85",
-  "https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=600&q=80",
-  "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80",
-]
+const PHOTO = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=85"
 
 const STATS = [
   { value: "500+", label: "Projects" },
@@ -33,10 +29,28 @@ export function HeroSection({ headline, subheadline, ctaText, ctaHref }: HeroSec
   })
 
   return (
-    <section className="w-full min-h-[100dvh] bg-black overflow-hidden grid grid-cols-1 lg:grid-cols-2">
-      {/* Left: text content */}
+    <section className="relative w-full min-h-[100dvh] bg-black overflow-hidden flex flex-col justify-between">
+
+      {/* Right-side photo — bleeds in from the right, gradient fade on left edge */}
       <motion.div
-        className="flex flex-col justify-between px-8 lg:px-12 pt-20 pb-10 min-h-[100dvh]"
+        className="absolute right-0 top-0 bottom-0 hidden lg:block"
+        style={{ width: "50%" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2, ease, delay: 0.3 }}
+      >
+        <img
+          src={PHOTO}
+          alt="Interior design project"
+          className="w-full h-full object-cover"
+        />
+        {/* Gradient fades the left edge of the photo into black */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
+      </motion.div>
+
+      {/* Content — sits on the left, above the photo layer */}
+      <motion.div
+        className="relative z-10 flex flex-col justify-between min-h-[100dvh] px-8 lg:px-12 pt-20 pb-10 w-full lg:w-[54%]"
         initial="hidden"
         animate="visible"
         variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.09 } } }}
@@ -65,11 +79,11 @@ export function HeroSection({ headline, subheadline, ctaText, ctaHref }: HeroSec
 
           <motion.div
             variants={fadeUp(0.12)}
-            className="flex gap-3 flex-wrap"
+            className="flex gap-3 flex-wrap max-sm:flex-col max-sm:items-stretch"
           >
             <Link
               href={ctaHref}
-              className="inline-flex items-center justify-center bg-primary text-white font-bold text-[13px] px-7 py-3.5 rounded-md hover:opacity-90 active:scale-[0.98] transition-all duration-200"
+              className="inline-flex items-center justify-center bg-primary text-white font-bold text-[13px] px-7 py-3.5 rounded-md hover:bg-accent-hover active:scale-[0.98] transition-all duration-200"
             >
               {ctaText}
             </Link>
@@ -82,6 +96,7 @@ export function HeroSection({ headline, subheadline, ctaText, ctaHref }: HeroSec
           </motion.div>
         </div>
 
+        {/* Stats pinned to the bottom */}
         <motion.div
           variants={fadeUp(0.18)}
           className="flex gap-10 pt-8 border-t border-[#1a1a1a] max-sm:gap-6"
@@ -94,42 +109,6 @@ export function HeroSection({ headline, subheadline, ctaText, ctaHref }: HeroSec
           ))}
         </motion.div>
       </motion.div>
-
-      {/* Right: 3-photo grid */}
-      <div className="hidden lg:grid grid-rows-[1fr_auto] gap-1 h-[100dvh]">
-        <div className="overflow-hidden">
-          <motion.img
-            src={PHOTOS[0]}
-            alt="Interior project"
-            className="w-full h-full object-cover"
-            initial={{ scale: 1.08, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1.1, ease }}
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-1" style={{ height: "35%" }}>
-          <div className="overflow-hidden">
-            <motion.img
-              src={PHOTOS[1]}
-              alt="Interior project"
-              className="w-full h-full object-cover"
-              initial={{ scale: 1.08, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1.1, ease, delay: 0.15 }}
-            />
-          </div>
-          <div className="overflow-hidden">
-            <motion.img
-              src={PHOTOS[2]}
-              alt="Interior project"
-              className="w-full h-full object-cover"
-              initial={{ scale: 1.08, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1.1, ease, delay: 0.25 }}
-            />
-          </div>
-        </div>
-      </div>
     </section>
   )
 }
