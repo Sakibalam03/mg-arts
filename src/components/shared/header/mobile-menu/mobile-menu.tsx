@@ -42,7 +42,7 @@ const MobileMenuItem = ({ text, to, sections }: NavItem) => {
         handleClick={handleMenuItemClick}
       >
         {text}
-        {sections?.length && <ChevronIcon className="ml-auto text-gray-new-30 dark:text-gray-new-70" />}
+        {!!sections?.length && <ChevronIcon className="ml-auto text-gray-new-30 dark:text-gray-new-70" />}
       </Tag>
       <LazyMotion features={domAnimation}>
         {hasSubmenu && (
