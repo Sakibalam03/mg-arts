@@ -35,7 +35,7 @@ The spec listed a standalone **Stats Bar** section (#03). Since the Centered Edi
 | `src/components/landing/services-section.tsx` | **Create** | 4-card numbered grid, staggered whileInView |
 | `src/components/landing/rate-teaser.tsx` | **Create** | Animated rate comparison bars |
 | `src/components/landing/cta-section.tsx` | **Create** | Final CTA, whileInView fade |
-| `src/app/(frontend)/(site)/page.tsx` | **Modify** | Replace inline JSX with section components |
+| `src/app/(frontend)/(landing)/page.tsx` | **Modify** | Replace inline JSX with section components |
 | `src/app/(frontend)/styles.css` | **Modify** | Remove obsolete `.rate-bar` CSS animation |
 
 ---
@@ -649,7 +649,7 @@ The spec listed a standalone **Stats Bar** section (#03). Since the Centered Edi
 ## Task 7: Wire up page.tsx
 
 **Files:**
-- Modify: `src/app/(frontend)/(site)/page.tsx`
+- Modify: `src/app/(frontend)/(landing)/page.tsx`
 
 - [ ] **Step 1: Replace `page.tsx` with the new composition**
 

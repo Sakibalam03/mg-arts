@@ -7,7 +7,7 @@
 
 ## Overview
 
-Full redesign of `src/app/(frontend)/(site)/page.tsx` (and supporting components) into a modern, elegant Editorial Luxury aesthetic. Dark-first, Framer Motion animated, Aceternity ParallaxScroll portfolio section, full dark/light mode support.
+Full redesign of `src/app/(frontend)/(landing)/page.tsx` (and supporting components) into a modern, elegant Editorial Luxury aesthetic. Dark-first, Framer Motion animated, Aceternity ParallaxScroll portfolio section, full dark/light mode support.
 
 ---
 
@@ -144,7 +144,7 @@ Animation: `whileInView`, `opacity 0→1, y 20→0`, `once: true`.
 All sections become **client components** (need Framer Motion). The page remains a server component that fetches CMS data and passes it as props.
 
 ```
-src/app/(frontend)/(site)/page.tsx          — server component, data fetching (unchanged structure)
+src/app/(frontend)/(landing)/page.tsx          — server component, data fetching (unchanged structure)
 src/components/landing/hero-section.tsx     — "use client", Framer Motion
 src/components/landing/stats-section.tsx    — "use client", count-up
 src/components/landing/portfolio-parallax.tsx — "use client", wraps ParallaxScroll
@@ -217,7 +217,7 @@ When real images are available, `PortfolioParallax` will fetch from Payload `Med
 
 | File | Action |
 |------|--------|
-| `src/app/(frontend)/(site)/page.tsx` | Modify — replace inline JSX with imported section components |
+| `src/app/(frontend)/(landing)/page.tsx` | Modify — replace inline JSX with imported section components |
 | `src/components/landing/hero-section.tsx` | Create |
 | `src/components/landing/stats-section.tsx` | Create |
 | `src/components/landing/portfolio-parallax.tsx` | Create |
